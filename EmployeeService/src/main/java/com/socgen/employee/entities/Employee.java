@@ -1,5 +1,6 @@
 package com.socgen.employee.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,8 +18,10 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	@Column(nullable = false)
 	private String firstName;
 	
+	@Column(nullable = false)
 	private String lastName;
 	
 	public Employee() {

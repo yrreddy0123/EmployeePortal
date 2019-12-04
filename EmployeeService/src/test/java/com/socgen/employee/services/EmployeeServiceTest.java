@@ -1,10 +1,15 @@
 package com.socgen.employee.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
 
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -17,24 +22,40 @@ import com.socgen.employee.entities.Employee;
  *
  */
 @SpringBootTest
+@TestMethodOrder(OrderAnnotation.class)
 public class EmployeeServiceTest {
 
 	@Autowired
 	private EmployeeService employeeService;
 
 	@Test
+	@Order(1)
 	public void createEmployee() {
 
-		Employee newEmploye = employeeService.createEmployee(new Employee());
+		Employee newEmploee = new Employee();
 
-		assertEquals(newEmploye, null);
+		newEmploee.setFirstName("RAM");
+		newEmploee.setLastName("REDDY");
+
+		assertNull(newEmploee.getId());
+
+		Employee registeredEmployee = employeeService.createEmployee(newEmploee);
+
+		assertNotNull(registeredEmployee);
+		// check if object is persisted by checking id
+		assertNotNull(registeredEmployee.getId());
+		assertEquals(newEmploee.getFirstName(), registeredEmployee.getFirstName());
 	}
 
 	@Test
+	@Order(2)
 	public void getAllEmployees() {
 
-		List<Employee> newEmploye = employeeService.getAllEmployees();
+		List<Employee> allEmployees = employeeService.getAllEmployees();
 
-		assertEquals(newEmploye, null);
+		assertNotNull(allEmployees);
+
+		assertEquals(allEmployees.size(), 1);
 	}
+
 }
